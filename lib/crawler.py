@@ -11,4 +11,6 @@ def crawl_race_stats(zipcode):
     race_figure=source.split('<a href="#figure/race-and-ethnicity"')[1].split('<h4 class="figure-title">')[0]
     races=re.findall('<text f[^>]+>([A-Z][^<]+)<\/text>', race_figure, re.DOTALL)
     percent=re.findall('<text f[^>]+>([^>]+%)<\/text>', race_figure, re.DOTALL)
-    return dict(zip(races, percent))
+    
+    population=re.search('<tr title="Population".*?<td>([^<]+)', source).group(1)
+    return (population, dict(zip(races, percent)))
